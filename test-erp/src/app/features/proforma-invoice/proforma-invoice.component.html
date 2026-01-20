@@ -1,0 +1,232 @@
+<div class="invoice-container">
+  <!-- Header Section -->
+  <div class="invoice-header">
+    <div class="header-left">
+      <i class="pi pi-file-edit"></i>
+      <h2>Proforma Invoice</h2>
+    </div>
+    <div class="header-right">
+      <span class="voucher-badge">{{ header().voucherNumber }}</span>
+      <div class="action-buttons">
+        <p-button icon="pi pi-save" label="Save" severity="primary" size="small" (onClick)="save()" />
+        <p-button icon="pi pi-refresh" label="Clear" severity="secondary" size="small" [outlined]="true" (onClick)="clear()" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Form -->
+  <div class="form-section">
+    <div class="form-grid">
+      <!-- Row 1 -->
+      <div class="form-field">
+        <label>Doc ID</label>
+        <p-select [options]="docIds" optionLabel="id" optionValue="id"
+          [ngModel]="header().docId" (ngModelChange)="onDocIdChange($event)"
+          placeholder="Select" appendTo="body" [style]="{ width: '100%' }" />
+      </div>
+      <div class="form-field">
+        <label>Voucher #</label>
+        <input pInputText [ngModel]="header().voucherNumber" readonly class="readonly-input" />
+      </div>
+      <div class="form-field">
+        <label>Date</label>
+        <p-datepicker [ngModel]="header().date" (ngModelChange)="updateHeader('date', $event)"
+          dateFormat="dd/mm/yy" [showIcon]="true" appendTo="body" [style]="{ width: '100%' }" />
+      </div>
+      <div class="form-field">
+        <label>Reference</label>
+        <input pInputText [ngModel]="header().reference"
+          (ngModelChange)="updateHeader('reference', $event)" placeholder="Reference" />
+      </div>
+      <div class="form-field">
+        <label>Reference 2</label>
+        <input pInputText [ngModel]="header().reference2"
+          (ngModelChange)="updateHeader('reference2', $event)" placeholder="Reference 2" />
+      </div>
+
+      <!-- Row 2 -->
+      <div class="form-field span-2">
+        <label>Vendor</label>
+        <p-select [options]="vendors" optionLabel="name" optionValue="id"
+          [ngModel]="header().vendorId" (ngModelChange)="onVendorChange($event)"
+          placeholder="Select Vendor" [filter]="true" filterPlaceholder="Search..."
+          [showClear]="true" appendTo="body" [style]="{ width: '100%' }">
+          <ng-template pTemplate="selectedItem" let-selected>
+            <span *ngIf="selected">{{ selected.id }} - {{ selected.name }}</span>
+          </ng-template>
+          <ng-template pTemplate="item" let-vendor>
+            <div class="dropdown-item">
+              <span class="item-id">{{ vendor.id }}</span>
+              <span class="item-name">{{ vendor.name }}</span>
+            </div>
+          </ng-template>
+        </p-select>
+      </div>
+      <div class="form-field">
+        <label>Buyer</label>
+        <p-select [options]="buyers" optionLabel="name" optionValue="id"
+          [ngModel]="header().buyer" (ngModelChange)="updateHeader('buyer', $event)"
+          placeholder="Select" [filter]="true" [showClear]="true" appendTo="body" [style]="{ width: '100%' }" />
+      </div>
+      <div class="form-field">
+        <label>Shipping</label>
+        <p-select [options]="shippingMethods" optionLabel="name" optionValue="id"
+          [ngModel]="header().shippingMethod" (ngModelChange)="updateHeader('shippingMethod', $event)"
+          placeholder="Select" [showClear]="true" appendTo="body" [style]="{ width: '100%' }" />
+      </div>
+      <div class="form-field">
+        <label>Vendor Ref #</label>
+        <input pInputText [ngModel]="header().vendorRef"
+          (ngModelChange)="updateHeader('vendorRef', $event)" placeholder="Vendor Ref" />
+      </div>
+
+      <!-- Row 3 -->
+      <div class="form-field">
+        <label>Payment Term</label>
+        <p-select [options]="paymentTerms" optionLabel="name" optionValue="id"
+          [ngModel]="header().paymentTerm" (ngModelChange)="updateHeader('paymentTerm', $event)"
+          placeholder="Select" [showClear]="true" appendTo="body" [style]="{ width: '100%' }" />
+      </div>
+      <div class="form-field">
+        <label>Tax Group</label>
+        <p-select [options]="taxGroups" optionLabel="name" optionValue="id"
+          [ngModel]="header().taxGroup" (ngModelChange)="updateHeader('taxGroup', $event)"
+          appendTo="body" [style]="{ width: '100%' }" />
+      </div>
+      <div class="form-field">
+        <label>Currency</label>
+        <p-select [options]="currencies" optionLabel="id" optionValue="id"
+          [ngModel]="header().currency" (ngModelChange)="onCurrencyChange($event)"
+          appendTo="body" [style]="{ width: '100%' }" />
+      </div>
+      <div class="form-field small">
+        <label>Rate</label>
+        <p-inputnumber [ngModel]="header().currencyRate"
+          (ngModelChange)="updateHeader('currencyRate', $event)"
+          [minFractionDigits]="2" [maxFractionDigits]="2" [style]="{ width: '100%' }" />
+      </div>
+      <div class="form-field">
+        <label>Due Date</label>
+        <p-datepicker [ngModel]="header().dueDate"
+          (ngModelChange)="updateHeader('dueDate', $event)"
+          dateFormat="dd/mm/yy" [showIcon]="true" appendTo="body" [style]="{ width: '100%' }" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Items Table -->
+  <div class="items-section">
+    <div class="items-header">
+      <span class="items-title"><i class="pi pi-list"></i> Items</span>
+      <p-button icon="pi pi-plus" label="Add" severity="secondary" size="small" [outlined]="true" (onClick)="addNewRow()" />
+    </div>
+
+    <p-table [value]="items()" [tableStyle]="{ 'min-width': '100%' }"
+      styleClass="p-datatable-sm p-datatable-gridlines compact-table"
+      [scrollable]="true" scrollHeight="250px">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 40px">#</th>
+          <th style="width: 140px">Item Code</th>
+          <th style="min-width: 240px">Description</th>
+          <th style="width: 60px">Unit</th>
+          <th style="width: 80px">Qty</th>
+          <th style="width: 80px">Price</th>
+          <th style="width: 90px">Amount</th>
+          <th style="width: 90px">Expense</th>
+          <th style="width: 40px"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+        <tr>
+          <td class="text-center">{{ rowIndex + 1 }}</td>
+          <td>
+            <p-select [options]="products" optionLabel="itemCode" optionValue="itemCode"
+              [ngModel]="item.itemCode" (ngModelChange)="onProductSelect(item, $event)"
+              placeholder="Select" [filter]="true" filterPlaceholder="Search..."
+              appendTo="body" [style]="{ width: '100%' }">
+              <ng-template pTemplate="item" let-product>
+                <div class="dropdown-item">
+                  <span class="item-code">{{ product.itemCode }}</span>
+                  <span class="item-desc">{{ product.description }}</span>
+                </div>
+              </ng-template>
+            </p-select>
+          </td>
+          <td>
+            <input pInputText [(ngModel)]="item.description" readonly class="readonly-input" style="min-width: 360px;" />
+          </td>
+          <td>
+            <input pInputText [(ngModel)]="item.unit" readonly class="readonly-input text-center" />
+          </td>
+          <td>
+            <p-inputnumber [(ngModel)]="item.quantity" (onBlur)="onItemChange(item)" [min]="0"
+              [inputStyle]="{ width: '100%', textAlign: 'right' }" [style]="{ width: '100%' }" />
+          </td>
+          <td>
+            <p-inputnumber [(ngModel)]="item.price" (onBlur)="onItemChange(item)"
+              [minFractionDigits]="2" [maxFractionDigits]="2"
+              [inputStyle]="{ width: '100%', textAlign: 'right' }" [style]="{ width: '100%' }" />
+          </td>
+          <td class="text-right amount-cell">{{ item.amount | number:'1.2-2' }}</td>
+          <td class="text-right expense-cell">{{ item.expense | number:'1.2-2' }}</td>
+          <td class="text-center">
+            <p-button icon="pi pi-trash" severity="danger" [text]="true" size="small" (onClick)="removeRow(item)" />
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="9" class="empty-message">
+            <span>No items. Click <strong>Add</strong> to add items.</span>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- Footer Section -->
+  <div class="footer-section">
+    <div class="footer-left">
+      <div class="form-field expenses-field">
+        <label>Total Expenses</label>
+        <p-inputnumber [ngModel]="footer().totalExpenses"
+          (ngModelChange)="updateFooter('totalExpenses', $event)"
+          [minFractionDigits]="2" [maxFractionDigits]="2" [min]="0" placeholder="0.00"
+          [inputStyle]="{ width: '100%', textAlign: 'right' }" [style]="{ width: '150px' }" />
+        <small>Distributed by qty</small>
+      </div>
+      <div class="form-field note-field">
+        <label>Note</label>
+        <textarea pTextarea [ngModel]="footer().note"
+          (ngModelChange)="updateFooter('note', $event)"
+          rows="3" placeholder="Notes..."></textarea>
+      </div>
+    </div>
+
+    <div class="footer-right">
+      <div class="calc-row">
+        <span class="calc-label">Subtotal:</span>
+        <span class="calc-value">{{ footer().subtotal | number:'1.2-2' }}</span>
+      </div>
+      <div class="calc-row">
+        <span class="calc-label">Discount:</span>
+        <div class="discount-input">
+          <p-inputnumber [ngModel]="footer().discountPercent"
+            (ngModelChange)="updateFooter('discountPercent', $event)"
+            [minFractionDigits]="1" [maxFractionDigits]="1" [min]="0" [max]="100" suffix="%"
+            [inputStyle]="{ width: '60px', textAlign: 'right' }" [style]="{ width: '60px' }" />
+          <span class="calc-value discount">-{{ footer().discountAmount | number:'1.2-2' }}</span>
+        </div>
+      </div>
+      <div class="calc-row">
+        <span class="calc-label">Tax ({{ selectedTaxRate() }}%):</span>
+        <span class="calc-value tax">{{ footer().taxAmount | number:'1.2-2' }}</span>
+      </div>
+      <div class="calc-row total">
+        <span class="calc-label">Total:</span>
+        <span class="calc-value">{{ selectedCurrency().symbol }} {{ footer().total | number:'1.2-2' }}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,261 @@
+$sidebar-width: 260px;
+$sidebar-collapsed-width: 68px;
+$transition-speed: 0.25s;
+$primary-blue: #60a5fa;
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: $sidebar-width;
+  background: linear-gradient(180deg, #1e3a5f 0%, #0f172a 100%);
+  overflow: hidden;
+  position: relative;
+  transition: width $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.collapsed {
+    width: $sidebar-collapsed-width;
+
+    .logo-text,
+    .nav-label {
+      opacity: 0;
+      visibility: hidden;
+      width: 0;
+      margin: 0;
+    }
+
+    .sidebar-header {
+      justify-content: center;
+      padding: 20px 0;
+    }
+
+    .nav-menu {
+      padding: 16px 10px;
+      align-items: center;
+    }
+
+    .nav-item {
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border-radius: 12px;
+
+      i {
+        font-size: 20px;
+      }
+
+      &.active::before {
+        display: none;
+      }
+
+      &.active {
+        background: rgba(96, 165, 250, 0.2);
+      }
+    }
+
+    .sidebar-footer {
+      padding: 12px 10px 16px;
+    }
+  }
+}
+
+// Toggle Button
+.toggle-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  margin-left: auto;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+  }
+
+  i {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  &.collapsed-toggle {
+    width: 44px;
+    height: 44px;
+    margin: 0 auto;
+    background: rgba(96, 165, 250, 0.15);
+    color: $primary-blue;
+
+    &:hover {
+      background: rgba(96, 165, 250, 0.25);
+    }
+
+    i {
+      font-size: 16px;
+    }
+  }
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all $transition-speed ease;
+  min-height: 76px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.logo-icon {
+  font-size: 26px;
+  color: $primary-blue;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  transition: opacity $transition-speed ease, visibility $transition-speed ease, width $transition-speed ease;
+}
+
+.nav-menu {
+  flex: 1;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all $transition-speed ease;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+  }
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+
+  i {
+    font-size: 18px;
+    min-width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+    transition: font-size 0.2s ease;
+  }
+
+  .nav-label {
+    transition: opacity $transition-speed ease, visibility $transition-speed ease, width $transition-speed ease;
+    overflow: hidden;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+
+  &.active {
+    background: rgba(96, 165, 250, 0.15);
+    color: $primary-blue;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 24px;
+      background: $primary-blue;
+      border-radius: 0 4px 4px 0;
+    }
+  }
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  transition: padding $transition-speed ease;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 10px;
+  color: #f87171;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  i {
+    font-size: 16px;
+  }
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+  }
+
+  &.collapsed-logout {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 12px;
+
+    span {
+      display: none;
+    }
+  }
+}
+
+.version {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+}

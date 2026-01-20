@@ -1,0 +1,155 @@
+// PrimeNG Styles
+@import "primeicons/primeicons.css";
+
+// ========================================
+// Global Styles
+// ========================================
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f8fafc;
+  color: #334155;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+// ========================================
+// Custom Scrollbar
+// ========================================
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+// ========================================
+// PrimeNG Customizations
+// ========================================
+
+// Button styles
+.p-button {
+  border-radius: 8px;
+  
+  // Primary buttons - match sidebar blue theme
+  &.p-button-primary,
+  &:not(.p-button-secondary):not(.p-button-success):not(.p-button-info):not(.p-button-warn):not(.p-button-danger):not(.p-button-text):not(.p-button-outlined):not(.p-button-link) {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border-color: #2563eb;
+    
+    &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      border-color: #1d4ed8;
+    }
+    
+    &:focus {
+      box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(59, 130, 246, 0.5);
+    }
+  }
+}
+
+// Icon-only buttons in tables
+.p-button-rounded.p-button-text {
+  &.p-button-primary,
+  &:not(.p-button-secondary):not(.p-button-success):not(.p-button-info):not(.p-button-warn):not(.p-button-danger) {
+    color: #3b82f6;
+    
+    &:hover {
+      background: rgba(59, 130, 246, 0.1);
+    }
+  }
+}
+
+// Outlined buttons - blue theme
+.p-button-outlined {
+  &:not(.p-button-secondary):not(.p-button-success):not(.p-button-info):not(.p-button-warn):not(.p-button-danger) {
+    color: #3b82f6;
+    border-color: #3b82f6;
+    
+    &:hover:not(:disabled) {
+      background: rgba(59, 130, 246, 0.08);
+      color: #2563eb;
+      border-color: #2563eb;
+    }
+  }
+}
+
+// Card styles
+.p-card {
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+// Dialog styles
+.p-dialog {
+  border-radius: 12px;
+  overflow: hidden;
+
+  .p-dialog-header {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .p-dialog-content {
+    padding: 1.5rem;
+  }
+
+  .p-dialog-footer {
+    padding: 1rem 1.5rem;
+  }
+}
+
+// DataTable styles
+.p-datatable {
+  .p-datatable-header {
+    background: #f8fafc;
+    border: none;
+    padding: 1rem 1.5rem;
+  }
+
+  .p-datatable-thead > tr > th {
+    background: #f8fafc;
+    font-weight: 600;
+    color: #475569;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+
+  .p-datatable-tbody > tr {
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background: #f1f5f9 !important;
+    }
+  }
+}
+
+// Input styles
+.p-inputtext {
+  border-radius: 8px;
+}
+
+// Toast positioning
+.p-toast {
+  opacity: 1;
+}

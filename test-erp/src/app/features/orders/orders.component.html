@@ -1,0 +1,25 @@
+<app-data-table 
+  title="Orders" 
+  [columns]="columns" 
+  [lazyData]="orders()"
+  [totalRecords]="totalRecords()"
+  [lazy]="true"
+  [pageSize]="10"
+  [pageSizeOptions]="[10, 25, 50]"
+  [showSearch]="true"
+  [loading]="loading()"
+  (onCreate)="openCreateDialog()" 
+  (onEdit)="openEditDialog($event)" 
+  (onDelete)="openDeleteDialog($event)"
+  (onLazyLoad)="loadOrders($event)" />
+
+<app-form-dialog 
+  [config]="formDialogConfig()" 
+  [(visible)]="formDialogVisible" 
+  (onSubmit)="handleFormSubmit($event)" />
+
+<app-confirm-dialog 
+  [config]="confirmDialogConfig()" 
+  [(visible)]="confirmDialogVisible"
+  (onConfirm)="handleDeleteConfirm()" />
+

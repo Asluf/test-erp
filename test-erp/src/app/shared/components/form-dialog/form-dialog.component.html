@@ -1,0 +1,63 @@
+<p-dialog 
+  [header]="config.title || 'Form'"
+  [(visible)]="visible"
+  [modal]="true"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '480px' }"
+  (onHide)="close()">
+
+  <form [formGroup]="config.form" class="form-container">
+    @for (field of config.fields; track field.key) {
+      <div class="form-field">
+        @if (field.type === 'textarea') {
+          <p-floatlabel variant="on">
+            <textarea 
+              pTextarea 
+              [id]="field.key"
+              [formControlName]="field.key"
+              rows="3"
+              class="w-full">
+            </textarea>
+            <label [for]="field.key">{{ field.label }}</label>
+          </p-floatlabel>
+        } @else {
+          <p-floatlabel variant="on">
+            <input 
+              pInputText 
+              [id]="field.key"
+              [type]="field.type"
+              [formControlName]="field.key"
+              class="w-full" />
+            <label [for]="field.key">{{ field.label }}</label>
+          </p-floatlabel>
+        }
+        
+        @if (hasError(field.key, 'required')) {
+          <small class="error-message">{{ field.label }} is required</small>
+        }
+        @if (hasError(field.key, 'email')) {
+          <small class="error-message">Please enter a valid email</small>
+        }
+      </div>
+    }
+  </form>
+
+  <ng-template pTemplate="footer">
+    <div class="dialog-footer">
+      <p-button 
+        label="Cancel" 
+        [text]="true"
+        severity="secondary"
+        (onClick)="close()">
+      </p-button>
+      <p-button 
+        [label]="config.submitText || 'Save'" 
+        icon="pi pi-check"
+        (onClick)="submit()"
+        [disabled]="config.form.invalid">
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>

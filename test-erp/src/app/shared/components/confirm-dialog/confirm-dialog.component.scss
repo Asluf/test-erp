@@ -1,0 +1,82 @@
+::host {
+  display: block;
+}
+
+.confirm-content {
+  text-align: center;
+  padding: 24px 16px;
+}
+
+.icon-wrapper {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+
+  i {
+    font-size: 32px;
+  }
+
+  &.icon-warning {
+    background: #fef3c7;
+    
+    i {
+      color: #d97706;
+    }
+  }
+
+  &.icon-danger {
+    background: #fee2e2;
+    
+    i {
+      color: #dc2626;
+    }
+  }
+
+  &.icon-info {
+    background: #dbeafe;
+    
+    i {
+      color: #2563eb;
+    }
+  }
+}
+
+.confirm-title {
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.confirm-message {
+  margin: 0 0 28px 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+:host ::ng-deep {
+  .p-dialog {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+    .p-dialog-content {
+      padding: 0;
+    }
+  }
+
+  .p-button {
+    min-width: 100px;
+  }
+}

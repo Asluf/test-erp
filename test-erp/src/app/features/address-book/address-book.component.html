@@ -1,0 +1,7 @@
+<app-data-table title="Address Book" [columns]="columns" [dataSource]="addressBookService.addresses"
+    (onCreate)="openCreateDialog()" (onEdit)="openEditDialog($event)" (onDelete)="openDeleteDialog($event)" />
+
+<app-form-dialog [config]="formDialogConfig()" [(visible)]="formDialogVisible" (onSubmit)="handleFormSubmit($event)" />
+
+<app-confirm-dialog [config]="confirmDialogConfig()" [(visible)]="confirmDialogVisible"
+    (onConfirm)="handleDeleteConfirm()" />

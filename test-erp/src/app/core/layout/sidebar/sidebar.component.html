@@ -1,0 +1,55 @@
+<div class="sidebar-container" [class.collapsed]="sidebarService.collapsed()">
+  <!-- Header -->
+  <div class="sidebar-header" (click)="navigateTo('/dashboard')">
+    <i class="pi pi-th-large logo-icon"></i>
+    <span class="logo-text">Mini ERP</span>
+    <!-- Toggle Button (in header when expanded) -->
+    @if (!sidebarService.collapsed()) {
+      <button class="toggle-btn" (click)="toggleSidebar(); $event.stopPropagation()" pRipple>
+        <i class="pi pi-angle-left"></i>
+      </button>
+    }
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav-menu">
+    @for (item of menuItems; track item.id) {
+      <a class="nav-item" 
+         [class.active]="isActive(item.route)"
+         [routerLink]="item.route"
+         [pTooltip]="sidebarService.collapsed() ? item.label : ''"
+         [tooltipDisabled]="!sidebarService.collapsed()"
+         tooltipPosition="right"
+         pRipple>
+        <i [class]="item.icon"></i>
+        <span class="nav-label">{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+
+  <!-- Footer with Logout -->
+  <div class="sidebar-footer">
+    @if (sidebarService.collapsed()) {
+      <!-- Logout Button (collapsed) -->
+      <button 
+        class="logout-btn collapsed-logout" 
+        (click)="logout()" 
+        pRipple
+        pTooltip="Logout"
+        tooltipPosition="right">
+        <i class="pi pi-sign-out"></i>
+      </button>
+      <!-- Toggle Button (centered when collapsed) -->
+      <button class="toggle-btn collapsed-toggle" (click)="toggleSidebar()" pRipple>
+        <i class="pi pi-angle-right"></i>
+      </button>
+    } @else {
+      <!-- Logout Button (expanded) -->
+      <button class="logout-btn" (click)="logout()" pRipple>
+        <i class="pi pi-sign-out"></i>
+        <span>Logout</span>
+      </button>
+      <span class="version">v1.0.0</span>
+    }
+  </div>
+</div>

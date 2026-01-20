@@ -1,0 +1,33 @@
+<p-dialog 
+  [(visible)]="visible"
+  [modal]="true"
+  [closable]="false"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '420px' }"
+  [showHeader]="false"
+  (onHide)="close()">
+
+  <div class="confirm-content">
+    <div class="icon-wrapper" [ngClass]="iconBgClass">
+      <i [class]="iconClass"></i>
+    </div>
+
+    <h3 class="confirm-title">{{ config.title }}</h3>
+    <p class="confirm-message">{{ config.message }}</p>
+
+    <div class="confirm-actions">
+      <p-button 
+        [label]="config.cancelText || 'Cancel'" 
+        [text]="true"
+        severity="secondary"
+        (onClick)="close()">
+      </p-button>
+      <p-button 
+        [label]="config.confirmText || 'Confirm'" 
+        [severity]="confirmSeverity"
+        (onClick)="confirm()">
+      </p-button>
+    </div>
+  </div>
+</p-dialog>
